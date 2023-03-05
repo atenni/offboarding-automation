@@ -8,8 +8,7 @@
     "build": "tsc -noEmit",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk",
-    "deploy": "AWS_PROFILE=TEMP-personalAwsAcct cdk deploy"
+    "deploy": "source ./.env && AWS_PROFILE=$AWS_PROFILE cdk deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.111",
