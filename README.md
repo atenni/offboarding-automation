@@ -55,6 +55,7 @@ offboarding process.
 - [Architecture](#architecture)
   - [Queue offboarding stack](#queue-offboarding-stack)
   - [Process offboarding stack](#process-offboarding-stack)
+- [Environment variables](#environment-variables)
 
 ---
 
