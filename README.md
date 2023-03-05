@@ -156,3 +156,18 @@ flowchart LR;
 1. Query for the user by supplied email address
 2. Deactivate user
 3. Revoke andy access tokens
+
+# Environment variables
+
+This project uses [dotenv] to manage environment variables.
+
+> **Note**  
+> You will need to create a `.env` file in the root of this project, or set the
+> required environment variables another way.
+
+This should not be checked into version control.
+
+See [.env.template] file for required values and documentation.
+
+[.env.template]: /.env.template
+[dotenv]: https://github.com/motdotla/dotenv
