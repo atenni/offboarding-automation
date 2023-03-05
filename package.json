@@ -5,6 +5,7 @@
     "offboarding-automation": "bin/offboarding-automation.js"
   },
   "scripts": {
+    "reset": "echo \"Deleting ./cdk.out\" && rm -rf ./cdk.out",
     "build": "tsc -noEmit",
     "watch": "tsc -w",
     "test": "jest",
