@@ -56,6 +56,7 @@ offboarding process.
   - [Queue offboarding stack](#queue-offboarding-stack)
   - [Process offboarding stack](#process-offboarding-stack)
 - [Environment variables](#environment-variables)
+- [Code style](#code-style)
 
 ---
 
@@ -172,3 +173,9 @@ See [.env.template] file for required values and documentation.
 
 [.env.template]: /.env.template
 [dotenv]: https://github.com/motdotla/dotenv
+
+# Code style
+
+This project uses [Prettier] to ensure a consistent code style.
+
+[Prettier]: https://prettier.io/
