@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import "source-map-support/register";
-import { App } from "aws-cdk-lib";
+import { App, Tags } from "aws-cdk-lib";
 import { QueueOffboardingStack } from "../lib/queue-offboarding-stack";
 // import { ProcessOffboardingStack } from "../lib/process-offboarding-stack";
 
@@ -15,6 +15,15 @@ const env = {
   region: process.env.CDK_PRODUCTION_REGION ?? process.env.CDK_DEV_REGION,
 };
 
-new QueueOffboardingStack(app, "QueueOffboardingStack", { env });
+const queueStack = new QueueOffboardingStack(app, "QueueOffboardingStack", {
+  env,
+});
 
 // new ProcessOffboardingStack(app, 'ProcessOffboardingStack', {});
+
+Tags.of(queueStack).add("team", "cas");
+Tags.of(queueStack).add("service", "offboarding-automation");
+Tags.of(queueStack).add(
+  "repo",
+  "https://github.com/atenni/offboarding-automation"
+);
