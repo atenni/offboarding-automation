@@ -14,15 +14,19 @@ offboarding process.
 <details>
 <summary>TODOs</summary>
 
+- [x] Update personal AWS IAM acct to use new custom role defined
+      [here][custom-role]. Currently it has admin.
 - [x] Push to personal GitHub repo
-- [ ] Bootstrap CDK into sandbox acct (profile: TEMP-personalAwsAcct)
+- [x] Bootstrap CDK into sandbox acct (profile: TEMP-personalAwsAcct)
   - _Obviously this should just be infra-as-code and not include anything AC3
     specific._
 - [x] Set up prettier
+- [x] Build `QueueOffboardingStack` (simple)
+- [ ] Build `ProcessOffboardingStack` (more complex)
 - [ ] CI/CD tests and code quality
 - [ ] CI/CD deployment
 - [ ] Implement [Lambda PowerTools]
-- [ ] Write helper functions for DDB queries
+- [x] Write helper functions for DDB queries
 - [ ] Write quick dev helper script to populate/reset local DDB with sample data
 - [ ] Write tests for all functions
 - [ ] Report on test coverage
@@ -31,9 +35,13 @@ offboarding process.
 - [ ] Set up `npm run` scripts for local dev (lambda, DDB, and step functions)
 - [ ] Make doco great (keep in sync with [Confluence doc])
 - [ ] Add repo badges
-- [ ] What tags will we use? (ie. team:cas, repo:github.com/{}...}, env:prod,
-      service:offboarding-automation, etc.)
+- [x] Tag all constructs. What tags will we use? (ie. team:cas,
+      repo:github.com/{}...}, env:prod, service:offboarding-automation, etc.)
+- [ ] Make service connectors reusable? (ie. Atlassian, Zoom, etc step
+      functions)
 
+[custom-role]:
+  https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_prerequisites
 [Lambda PowerTools]:
   https://awslabs.github.io/aws-lambda-powertools-typescript/latest/
 [Confluence doc]:
