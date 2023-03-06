@@ -9,7 +9,16 @@
     "build": "tsc -noEmit",
     "watch": "tsc -w",
     "test": "jest",
+    "synth": "cdk synth",
+    "ls": "cdk ls",
     "deploy": "source ./.env && AWS_PROFILE=$AWS_PROFILE cdk deploy"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/lib-dynamodb": "^3.284.0",
+    "aws-cdk-lib": "2.66.1",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.111",
@@ -23,10 +32,5 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "~4.9.5"
-  },
-  "dependencies": {
-    "aws-cdk-lib": "2.66.1",
-    "constructs": "^10.0.0",
-    "source-map-support": "^0.5.21"
   }
 }
