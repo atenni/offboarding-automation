@@ -31,6 +31,8 @@ offboarding process.
 - [ ] Set up `npm run` scripts for local dev (lambda, DDB, and step functions)
 - [ ] Make doco great (keep in sync with [Confluence doc])
 - [ ] Add repo badges
+- [ ] What tags will we use? (ie. team:cas, repo:github.com/{}...}, env:prod,
+      service:offboarding-automation, etc.)
 
 [Lambda PowerTools]:
   https://awslabs.github.io/aws-lambda-powertools-typescript/latest/
