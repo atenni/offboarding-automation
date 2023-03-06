@@ -84,37 +84,67 @@ CDK stack name: `QueueOffboardingStack`
 
 ```mermaid
 flowchart LR;
-  service_now("<u>SNOW webhook</u>
+  service_now("<b><u>SNOW webhook</u></b>
     - email
     - offboarding_date
     - snow_id
   ");
 
   lambda[["
-    <u>AWS Lambda</u>
+    <b><u>AWS Lambda: WebhookHandler</u></b>
     With function URL
   "]]
 
   ddb[("
-    <u>AWS DDB</u>
-    - email: text
-    - offboarding_date: date
+    <b><u>AWS DDB: QueueTable</u></b>
+    - email: string (PK)
+    - status: enum (GSI1PK)
+    - offboarding_date: date (GSI1SK)
     - snow_id: id
     - created_at: date
     - updated_at: date
-    - status: enum
   ")]
 
   service_now --> lambda
   lambda --> ddb
 ```
 
-Possible values for DDB `status` enum:
+### DDB design - access patterns, keys and indexes
 
-- `QUEUED`
-- `IN_PROGRESS`
-- `ERROR`
-- `SUCCESS`
+The table needs to support two primary access patterns:
+
+1. Get _a single item_ by email address for updating the offboarding_date
+2. Get _all items_ with a status of `QUEUED` for a given date / date range (or
+   any other valid status)
+
+To support this we'll use a global secondary index (GSI).
+
+- **PK (partition key):** email address to be offboarded
+  - Format: string - `anne@email.com`
+  - It would be an error to ever have more than one record with the same email.
+    Having a PK without an SK enforces this[^1]
+- **GSI1PK (global secondary index #1 partition key):** status
+  - Possible values: `QUEUED` |`IN_PROGRESS` | `ERROR` | `SUCCESS`
+- **GSI1SK (global secondary index #1 sort key):** offboarding_date
+  - Format: `YYYY-MM-DD`
+  - GSI-PK / GSI-SK combinations are allowed to be non-unique. This will allow
+    us to have different users with the same status (`QUEUED`) and offboarding
+    dates, which is desirable.
+
+[^1]:
+    GSI-PK / GSI-SK combinations are allowed to be non-unique. However, PK / SK
+    combinations on the main table are not.
+
+This primary key design allows the following queries to be made efficiently:
+
+- Individual user by email _(PK = email address)_
+- All `QUEUED` tasks _(GSI1PK = QUEUED)_
+- All `QUEUED` tasks where `offboarding_date` is today _(GSI1PK = QUEUED &
+  GSI1SK = `2023-03-01`)_
+- All `QUEUED` tasks where `offboarding_date` is this month _(GSI1PK = QUEUED &
+  GSI1SK begins with `2023-03`)_
+- All `QUEUED` tasks where `offboarding_date` is in the past _(GSI1PK = QUEUED &
+  GSI1SK < `2023-03-01`)_
 
 ## Process offboarding stack
 
@@ -163,11 +193,14 @@ flowchart LR;
 
 ```
 
-**Note** – each parrallel step function will need to:
+**Note** – each parallel step function will need to:
 
 1. Query for the user by supplied email address
 2. Deactivate user
 3. Revoke andy access tokens
+
+**Desirable feature:** each service connector (Atlassian, Zoom, etc) should be
+designed to be reusable by other projects.
 
 # Environment variables
 
